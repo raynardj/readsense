@@ -1,0 +1,24 @@
+{%extends "appbuilder/base.html"%}
+{% block content %}
+<h1>{{book.bookname}}</h1>
+<h3>Author: {{book.author.author}}</h3>
+<h4>Born: {{book.author.born_year}} Decease: {{book.author.death_year}}</h4>
+<div class = "row">
+    <div id = "book_category" class="col-md-3">
+        <ul class="list-group">
+        {%if book.chapters.__len__()>1%}
+        {%for chap in book.chapters%}
+            <li class="list-group-item">{{chap.chapter}}</li>
+        {%endfor%}
+        {%else%}
+            <h5>This Book Only Has 1 Chapter</h5>
+        {%endif%}
+        </ul>
+    </div>
+    <div id="book_content" class="col-md-7">
+        <pre>
+        {{book.chapters[0].file.text|safe}}
+        </pre>
+    </div>
+</div>
+{% endblock %}
