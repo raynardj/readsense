@@ -8,7 +8,9 @@
         <ul class="list-group">
         {%if book.chapters.__len__()>1%}
         {%for chap in book.chapters%}
-            <li class="list-group-item">{{chap.chapter}}</li>
+            <li class="list-group-item">
+                        <a href="/book/readchapter/{{book.book_id}}/{{chap.file_id}}/">{{chap.chapter}}</a>
+            </li>
         {%endfor%}
         {%else%}
             <h5>This Book Only Has 1 Chapter</h5>
@@ -17,7 +19,11 @@
     </div>
     <div id="book_content" class="col-md-7">
         <pre>
+        {% if file %}
+        {{file.text|safe}}
+        {% else%}
         {{book.chapters[0].file.text|safe}}
+        {%endif%}
         </pre>
     </div>
 </div>

@@ -1,0 +1,24 @@
+{% extends "appbuilder/base.html" %}
+{%block content%}
+{%set tar = widgets.get("show").template_args %}
+<h1>{{tar.value_columns[tar.include_columns.index("author")]}}</h1>
+{%set born = tar.value_columns[tar.include_columns.index("born")]%}
+{%set death = tar.value_columns[tar.include_columns.index("death")]%}
+<h3>
+    Born👶: {% if born  >9990%}No Record{%elif born>=0%}{{born}}{%else%}{{born.__abs__()}} BC{%endif%} >>>
+</h3>
+<h3>Created the following:</h3>
+{%set books = tar.value_columns[tar.include_columns.index("books")] %}
+<ul class="list-group">
+{% for book in books%}
+    <li class="list-group-item"><a href="/book/readbook/{{book.book_id}}/" target="_blank" class="btn btn-warning">{{book}}</a>   </li>
+{% endfor %}
+</ul>
+<h3>
+    Decease💀: {% if death  >9990%}No Record{%elif death>=0%}{{death}}{%else%}{{death.__abs__()}} BC{%endif%}
+</h3>
+
+
+
+
+{%endblock%}
