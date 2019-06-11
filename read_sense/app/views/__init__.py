@@ -4,6 +4,7 @@ from flask_appbuilder import ModelView, expose
 
 from .. import appbuilder, db
 from read_sense.app.views.books_view import bookTextView, authorView, bookView
+import pandas as pd
 
 """
     Create your Model based REST API::
