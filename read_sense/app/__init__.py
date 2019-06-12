@@ -1,11 +1,12 @@
 import logging
 
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_appbuilder import AppBuilder, SQLA, expose
-from flask_appbuilder import IndexView
+from flask_appbuilder import IndexView,BaseView
 import pandas as pd
 from collections import namedtuple
 import random
+import json
 
 """
  Logging configuration
@@ -37,8 +38,27 @@ class CustomeIndexView(IndexView):
         book_choice = random.sample(books,30)
         return self.render_template("index.html",author_choice = author_choice,book_choice=book_choice)
 
-appbuilder = AppBuilder(app, db.session, indexview=CustomeIndexView)
+class searchAPI(BaseView):
+    route_base = "/search"
 
+    @expose("/book/", methods=["POST"])
+    def search_book(self):
+        search_dict = json.loads(request.data)
+        kw = search_dict["kw"]
+        book_result = booksdf[booksdf.bookname.str.contains(kw)].to_dict(orient="index")
+
+        return jsonify(book_result)
+
+    @expose("/author/", methods=["POST"])
+    def search_author(self):
+        search_dict = json.loads(request.data)
+        kw = search_dict["kw"]
+        author_result = authordf[authordf.author.str.contains(kw)].to_dict(orient="index")
+
+        return jsonify(author_result)
+
+appbuilder = AppBuilder(app, db.session, indexview=CustomeIndexView)
+appbuilder.add_view_no_menu(searchAPI)
 
 """
 from sqlalchemy.engine import Engine

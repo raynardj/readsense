@@ -1,6 +1,12 @@
 {% extends "appbuilder/base.html"%}
 {%block content%}
 <h1>Read Sense</h1>
+
+<div class="input-group">
+  <input id="search-input" type="text" class="form-control" placeholder="Book Name/ Author Name" aria-describedby="basic-addon2">
+  <span id="search-btn" class="input-group-addon" id="basic-addon2">Search</span>
+</div>
+
 <div class = "col-xs-12 col-sm-12 col-md-6 col-lg-6">
     <h3>Authors</h3>
     <h5>Random Picks</h5>
@@ -20,4 +26,94 @@
     </ul>
 </div>
 
+
+<div class="modal fade" id="modal-search-result" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search Result</h4>
+      </div>
+      <div class="modal-body">
+        <p id="search-result-book"> No book found</p>
+          <p id="search-result-author">No author found</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{%endblock%}
+
+{%block tail_js%}
+{{super()}}
+<script>
+    function result_entries(results)
+    {
+    var l = document.createElement("ul")
+    $(l).addClass("list-group")
+        for(var i=0;i<results.length;i++)
+        {
+         var li = document.createElement("li")
+         $(li).addClass("list-group-item")
+         var link = document.createElement("a")
+         if(results[i].author)
+         {
+         $(link).attr("href","/author/show/"+String(results[i].index))
+         $(link).html(results[i].author)
+         }
+         else
+         {
+         $(link).attr("href","/book/readbook/"+String(results[i].book_id)+"/")
+         $(link).html(results[i].bookname)
+         }
+         $(li).append(link)
+         $(l).append(li)
+        }
+    return l
+    }
+    function search(url,kw, outdom)
+    {
+        var input_data = {};
+        input_data.kw = kw;
+        var outdata ={};
+
+        $.ajax({
+        url:url,
+        method:"POST",
+        async:true,
+        data:JSON.stringify(input_data),
+        outdom:outdom,
+        contentType: 'application/json;charset=UTF-8',
+        success:function(data){
+            var data = Object.values(data)
+            console.log(data)
+            $(this.outdom).html(result_entries(data))
+            }
+        })
+    }
+
+    function search_author(kw, outdom)
+    {
+        search("/search/author/",kw, outdom)
+    }
+
+    function search_book(kw, outdom)
+    {
+        return search("/search/book/",kw, outdom)
+    }
+
+    $(document).ready(function(){
+     $("#search-btn").click(function(){
+      var kw = $("#search-input").val()
+      search_author(kw,$("#search-result-author")[0])
+      search_book(kw,$("#search-result-book")[0])
+      $('#modal-search-result').modal("show")
+     })
+
+
+    })
+</script>
 {%endblock%}
