@@ -1,23 +1,47 @@
 {%extends "appbuilder/base.html"%}
 {% block content %}
-<h1>{{book.bookname}}</h1>
-<h3>Author: {{book.author.author}}</h3>
-<h4>Born: {{book.author.born_year}} Decease: {{book.author.death_year}}</h4>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+    <h1>{{book.bookname}}</h1>
+    </div>
+    <div class="panel-body">
+        <h3><a href="/author/show/{{book.author.index}}">Author: {{book.author.author}}</a></h3>
+        <h4>Born: {{book.author.born_year}} Decease: {{book.author.death_year}}</h4>
+    </div>
+</div>
 <div class = "row">
     <div id = "book_category" class="col-md-3">
-        <ul class="list-group">
-        {%if book.chapters.__len__()>1%}
-        {%for chap in book.chapters%}
-            <li class="list-group-item">
+        <div class="panel panel-default">
+            <div class="panel-heading">Chapters</div>
+            <div class="panel-body">
+            <ul class="list-group">
+            {%if book.chapters.__len__()>1%}
+            {%for chap in book.chapters%}
+                <li class="list-group-item">
                         <a href="/book/readchapter/{{book.book_id}}/{{chap.file_id}}/">{{chap.chapter}}</a>
-            </li>
-        {%endfor%}
-        {%else%}
+                </li>
+            {%endfor%}
+            {%else%}
             <h5>This Book Only Has 1 Chapter</h5>
-        {%endif%}
-        </ul>
+            {%endif%}
+            </ul>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Books By {{book.author.author}}</div>
+            <div class="panel-body">
+                <ul class="list-group">
+                {% for b in book.author.books %}
+                    <li class="list-group-item">
+                    <a href="/book/readbook/{{b.book_id}}/">{{b.bookname}}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
-    <div id="book_content" class="col-md-7">
+    <div id="book_content" class="col-md-9">
         <pre>
         {% if file %}
         {{file.text|safe}}

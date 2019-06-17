@@ -11,7 +11,7 @@
 {%set books = tar.value_columns[tar.include_columns.index("books")] %}
 <ul class="list-group">
 {% for book in books%}
-    <li class="list-group-item"><a href="/book/readbook/{{book.book_id}}/" target="_blank" class="btn btn-warning">{{book}}</a>   </li>
+    <li class="list-group-item"><a href="/book/readbook/{{book.book_id}}/" target="_blank" class="btn btn-default">{{book}}</a>   </li>
 {% endfor %}
 </ul>
 <h3>
