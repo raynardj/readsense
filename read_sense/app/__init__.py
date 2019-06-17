@@ -24,6 +24,10 @@ book_ = namedtuple("book",["id","name"])
 
 authordf = pd.read_sql("authors",con=db.engine)
 booksdf = pd.read_sql("books", con=db.engine)
+
+authordf["author_l"] = authordf.author.apply(lambda x:str(x).lower())
+booksdf["bookname_l"] = booksdf.bookname.apply(lambda x:str(x).lower())
+
 authors = list(author_(i, a) for i, a in zip(authordf["index"],authordf.author))
 books = list(book_(i,b) for i, b in zip(booksdf["book_id"], booksdf.bookname))
 
@@ -44,16 +48,16 @@ class searchAPI(BaseView):
     @expose("/book/", methods=["POST"])
     def search_book(self):
         search_dict = json.loads(request.data)
-        kw = search_dict["kw"]
-        book_result = booksdf[booksdf.bookname.str.contains(kw)].to_dict(orient="index")
+        kw = str(search_dict["kw"]).lower()
+        book_result = booksdf[booksdf.bookname_l.str.contains(kw)].to_dict(orient="index")
 
         return jsonify(book_result)
 
     @expose("/author/", methods=["POST"])
     def search_author(self):
         search_dict = json.loads(request.data)
-        kw = search_dict["kw"]
-        author_result = authordf[authordf.author.str.contains(kw)].to_dict(orient="index")
+        kw = str(search_dict["kw"]).lower()
+        author_result = authordf[authordf.author_l.str.contains(kw)].to_dict(orient="index")
 
         return jsonify(author_result)
 
