@@ -1,4 +1,8 @@
 import os
+import configparser
+
+etcconf = configparser.RawConfigParser()
+etcconf.read_string(open("/etc/rasenn.cfg").read())
 from flask_appbuilder.security.manager import (
     AUTH_OID,
     AUTH_REMOTE_USER,
@@ -46,10 +50,10 @@ AUTH_TYPE = AUTH_DB
 # AUTH_ROLE_PUBLIC = 'Public'
 
 # Will allow user self registration
-# AUTH_USER_REGISTRATION = True
+AUTH_USER_REGISTRATION = True
 
 # The default user self registration role
-# AUTH_USER_REGISTRATION_ROLE = "Public"
+AUTH_USER_REGISTRATION_ROLE = "Public"
 
 # When using LDAP Auth, setup the ldap server
 # AUTH_LDAP_SERVER = "ldap://ldapserver.new"
@@ -108,3 +112,11 @@ APP_THEME = "cerulean.css"
 # APP_THEME = "spacelab.css"
 # APP_THEME = "united.css"
 # APP_THEME = "yeti.css"
+
+MAIL_SERVER = etcconf.get("Email","MAIL_SERVER")
+MAIL_USERNAME = etcconf.get("Email","MAIL_USERNAME")
+MAIL_PASSWORD =  etcconf.get("Email","MAIL_PASSWORD")
+MAIL_DEFAULT_SENDER = etcconf.get("Email","MAIL_DEFAULT_SENDER")
+
+RECAPTCHA_PUBLIC_KEY = etcconf.get('reC',"RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = etcconf.get('reC',"RECAPTCHA_PRIVATE_KEY")
