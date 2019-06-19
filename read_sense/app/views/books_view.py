@@ -26,6 +26,11 @@ class authorView(ModelView):
 
     show_template = "author_show.html"
 
+    @expose("/visit/<author_id>/")
+    def visit_author(self,author_id):
+        author = self.datamodel.get(int(author_id))
+        return self.render_template("author_visit.html",author = author)
+
 
 class bookView(ModelView):
     datamodel = SQLAInterface(bookModel)

@@ -1,0 +1,23 @@
+{% extends "appbuilder/base.html" %}
+{%block content%}
+<h1>{{author.author}}</h1>
+{%set born = author.born%}
+{%set death = author.death%}
+<h3>
+    Born👶: {% if born  >9990%}No Record{%elif born>=0%}{{born}}{%else%}{{born.__abs__()}} BC{%endif%} >>>
+</h3>
+<h3>Created the following books:</h3>
+{%set books = author.books %}
+<ul class="list-group">
+{% for book in books%}
+    <li class="list-group-item"><a href="/book/readbook/{{book.book_id}}/" target="_blank">{{book}}</a>   </li>
+{% endfor %}
+</ul>
+<h3>
+    Decease💀: {% if death  >9990%}No Record{%elif death>=0%}{{death}}{%else%}{{death.__abs__()}} BC{%endif%}
+</h3>
+
+
+
+
+{%endblock%}
