@@ -48,20 +48,12 @@ def page_not_found(e):
         404,
     )
 
-from flask_appbuilder.security.registerviews import RegisterUserDBView
 
-class MyRegisterUserDBView(RegisterUserDBView):
-    email_template = 'register_mail.html'
-    email_subject = 'Your Account activation'
-    activation_template = 'activation.html'
-    form_title = 'Sing up for free'
-    error_message = 'Not possible to register you at the moment, try again later'
-    message = 'Registration sent to your email'
 
 appbuilder.add_view(bookTextView,"Book Text",category = "Resources")
 appbuilder.add_view(authorView,"Authors",category = "Resources")
 appbuilder.add_view(bookView,"Books",category = "Resources")
 
-appbuilder.add_view(MyRegisterUserDBView,"Register")
+# appbuilder.add_view(MyRegisterUserDBView,"Register")
 
 db.create_all()

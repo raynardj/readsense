@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask, request, jsonify
 from flask_appbuilder import AppBuilder, SQLA, expose
-from flask_appbuilder import IndexView,BaseView
+from flask_appbuilder import IndexView, BaseView
 import pandas as pd
 from collections import namedtuple
 import random
@@ -19,28 +19,29 @@ app = Flask(__name__)
 app.config.from_object("config")
 db = SQLA(app)
 
-author_ = namedtuple("author",["id","name"])
-book_ = namedtuple("book",["id","name"])
+author_ = namedtuple("author", ["id", "name"])
+book_ = namedtuple("book", ["id", "name"])
 
-authordf = pd.read_sql("authors",con=db.engine)
+authordf = pd.read_sql("authors", con=db.engine)
 booksdf = pd.read_sql("books", con=db.engine)
 
-authordf["author_l"] = authordf.author.apply(lambda x:str(x).lower())
-booksdf["bookname_l"] = booksdf.bookname.apply(lambda x:str(x).lower())
+authordf["author_l"] = authordf.author.apply(lambda x: str(x).lower())
+booksdf["bookname_l"] = booksdf.bookname.apply(lambda x: str(x).lower())
 
-authors = list(author_(i, a) for i, a in zip(authordf["index"],authordf.author))
-books = list(book_(i,b) for i, b in zip(booksdf["book_id"], booksdf.bookname))
+authors = list(author_(i, a) for i, a in zip(authordf["index"], authordf.author))
+books = list(book_(i, b) for i, b in zip(booksdf["book_id"], booksdf.bookname))
+
 
 class CustomeIndexView(IndexView):
-
     index_template = "index.html"
     route_base = "/"
 
     @expose("/")
     def index(self):
-        author_choice = random.sample(authors,20)
-        book_choice = random.sample(books,30)
-        return self.render_template("index.html",author_choice = author_choice,book_choice=book_choice)
+        author_choice = random.sample(authors, 20)
+        book_choice = random.sample(books, 30)
+        return self.render_template("index.html", author_choice=author_choice, book_choice=book_choice)
+
 
 class searchAPI(BaseView):
     route_base = "/search"
@@ -61,7 +62,24 @@ class searchAPI(BaseView):
 
         return jsonify(author_result)
 
-appbuilder = AppBuilder(app, db.session, indexview=CustomeIndexView)
+from flask_appbuilder.security.manager import RegisterUserDBView
+from flask_appbuilder.security.sqla.manager import SecurityManager
+
+
+class MyRegisterUserDBView(RegisterUserDBView):
+    email_template = 'register_mail.html'
+    email_subject = 'Your Account activation'
+    activation_template = 'activation.html'
+    form_title = 'Sing up for free'
+    error_message = 'Not possible to register you at the moment, try again later'
+    message = 'Registration sent to your email'
+
+class MySecurityManager(SecurityManager):
+    registeruserdbview = MyRegisterUserDBView
+
+
+appbuilder = AppBuilder(app, db.session, indexview=CustomeIndexView,
+                        security_manager_class=MySecurityManager)
 appbuilder.add_view_no_menu(searchAPI)
 
 """

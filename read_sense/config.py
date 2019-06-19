@@ -115,7 +115,7 @@ APP_THEME = "cerulean.css"
 
 MAIL_SERVER = etcconf.get("Email","MAIL_SERVER")
 MAIL_USERNAME = etcconf.get("Email","MAIL_USERNAME")
-MAIL_PASSWORD =  etcconf.get("Email","MAIL_PASSWORD")
+MAIL_PASSWORD = etcconf.get("Email","MAIL_PASSWORD")
 MAIL_DEFAULT_SENDER = etcconf.get("Email","MAIL_DEFAULT_SENDER")
 
 RECAPTCHA_PUBLIC_KEY = etcconf.get('reC',"RECAPTCHA_PUBLIC_KEY")
