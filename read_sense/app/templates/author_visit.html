@@ -1,4 +1,10 @@
 {% extends "appbuilder/base.html" %}
+{% block head_js %}
+{{
+super()
+}}
+<script src="https://www.google.com/recaptcha/api.js?render={{rec_key_v3}}"></script>
+{% endblock %}
 {%block content%}
 <h1>{{author.author}}</h1>
 {%set born = author.born%}
@@ -21,3 +27,8 @@
 
 
 {%endblock%}
+
+{% block tail_js %}
+{{super()}}
+<script src="/jsrender/grecaptcha/v3/{{action}}/"></script>
+{% endblock %}

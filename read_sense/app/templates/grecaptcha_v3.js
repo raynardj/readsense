@@ -1,5 +1,5 @@
 grecaptcha.ready(function() {
-      grecaptcha.execute('{{rec_key_v3}}', {action: 'bookRead'}).then(function(token) {
+      grecaptcha.execute('{{rec_key_v3}}', {action: '{{action}}'}).then(function(token) {
          $.ajax({
          url:"/verify/gr/v3/",
          async:true,

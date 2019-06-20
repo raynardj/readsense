@@ -3,6 +3,9 @@ from flask import render_template
 from flask_appbuilder.models.sqla.interface import SQLAInterface
 
 from read_sense.app.models.books import bookDoc, authorModel, bookModel, bookMap
+from read_sense.utils import log_writer
+from flask import request
+from flask_login import current_user
 
 
 class bookTextView(ModelView):
@@ -27,9 +30,13 @@ class authorView(ModelView):
     show_template = "author_show.html"
 
     @expose("/visit/<author_id>/")
-    def visit_author(self,author_id):
+    @log_writer
+    def visit_author(self, author_id):
+
         author = self.datamodel.get(int(author_id))
-        return self.render_template("author_visit.html",author = author)
+        rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
+        return self.render_template("author_visit.html", author=author,
+                                    rec_key_v3=rec_key_v3, action="authorVisit")
 
 
 class bookView(ModelView):
@@ -48,7 +55,8 @@ class bookView(ModelView):
     def read_book(self, book_id):
         book = self.datamodel.get(book_id)
         rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
-        return self.render_template("readbook.html", book=book, rec_key_v3 = rec_key_v3)
+        return self.render_template("readbook.html", book=book,
+                                    rec_key_v3=rec_key_v3, action="bookRead")
 
     @expose("/readchapter/<book_id>/<file_id>/")
     def read_chapter(self, book_id, file_id):
@@ -60,6 +68,9 @@ class bookView(ModelView):
         rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
         if int(file_id) in file_ids:
             file = chapters[file_ids.index(file_id)].file
-            return self.render_template("readbook.html", book=book, file=file, file_id=file_id, rec_key_v3 = rec_key_v3)
+            return self.render_template("readbook.html", book=book,
+                                        file=file, file_id=file_id,
+                                        rec_key_v3=rec_key_v3, action="chapterRead")
         else:
-            return self.render_template("readbook.html", book=book, rec_key_v3 = rec_key_v3)
+            return self.render_template("readbook.html", book=book,
+                                        rec_key_v3=rec_key_v3, action="chapterRead")
