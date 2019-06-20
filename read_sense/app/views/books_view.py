@@ -52,6 +52,7 @@ class bookView(ModelView):
     add_title = "Add a New Book"
 
     @expose("/readbook/<book_id>/")
+    @log_writer
     def read_book(self, book_id):
         book = self.datamodel.get(book_id)
         rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
@@ -59,6 +60,7 @@ class bookView(ModelView):
                                     rec_key_v3=rec_key_v3, action="bookRead")
 
     @expose("/readchapter/<book_id>/<file_id>/")
+    @log_writer
     def read_chapter(self, book_id, file_id):
         book_id = int(book_id)
         file_id = int(file_id)
