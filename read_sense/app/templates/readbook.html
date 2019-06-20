@@ -1,4 +1,12 @@
 {%extends "appbuilder/base.html"%}
+
+{% block head_js %}
+{{
+super()
+}}
+<script src="https://www.google.com/recaptcha/api.js?render={{rec_key_v3}}"></script>
+
+{% endblock %}
 {% block content %}
 
 <div class="panel panel-default">
@@ -51,4 +59,12 @@
         </pre>
     </div>
 </div>
+{% endblock %}
+
+{% block tail_js %}
+{{super()}}
+<script>
+    console.log("Loading grecaptcha js")
+</script>
+<script src="/jsrender/grecaptcha/v3/"></script>
 {% endblock %}

@@ -4,6 +4,8 @@ from flask_appbuilder import ModelView, expose
 
 from .. import appbuilder, db
 from read_sense.app.views.books_view import bookTextView, authorView, bookView
+from read_sense.app.views.jsviews import JSView
+from read_sense.app.views.verify import verifyView
 import pandas as pd
 
 """
@@ -53,6 +55,8 @@ def page_not_found(e):
 appbuilder.add_view(bookTextView,"Book Text",category = "Resources")
 appbuilder.add_view(authorView,"Authors",category = "Resources")
 appbuilder.add_view(bookView,"Books",category = "Resources")
+appbuilder.add_view_no_menu(JSView)
+appbuilder.add_view_no_menu(verifyView)
 
 # appbuilder.add_view(MyRegisterUserDBView,"Register")
 

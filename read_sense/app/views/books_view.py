@@ -47,7 +47,8 @@ class bookView(ModelView):
     @expose("/readbook/<book_id>/")
     def read_book(self, book_id):
         book = self.datamodel.get(book_id)
-        return self.render_template("readbook.html", book=book)
+        rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
+        return self.render_template("readbook.html", book=book, rec_key_v3 = rec_key_v3)
 
     @expose("/readchapter/<book_id>/<file_id>/")
     def read_chapter(self, book_id, file_id):
@@ -56,8 +57,9 @@ class bookView(ModelView):
         book = self.datamodel.get(book_id)
         chapters = book.chapters
         file_ids = list(chapter.file_id for chapter in chapters)
+        rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
         if int(file_id) in file_ids:
             file = chapters[file_ids.index(file_id)].file
-            return self.render_template("readbook.html", book=book, file=file, file_id=file_id)
+            return self.render_template("readbook.html", book=book, file=file, file_id=file_id, rec_key_v3 = rec_key_v3)
         else:
-            return self.render_template("readbook.html", book=book)
+            return self.render_template("readbook.html", book=book, rec_key_v3 = rec_key_v3)
