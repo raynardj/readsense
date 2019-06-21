@@ -1,6 +1,18 @@
 # A Classical Literature Library
 ### With many nlp techniques applied to it
 
+## Installation
+### Requirements
+Install the following python lib under your environment
+```
+flask
+flask_appbuilder
+flask_mail
+pandas
+requests
+gunicorn
+```
+
 ### Write a configuration file for google reCAPTCHA and website email, in following format
 
 The configuration file shall be stored in ```/etc/rasenn.cfg```
@@ -35,3 +47,9 @@ def something(self):
     somecode = somecode
     return self.render_template("some_template.html")
 ```
+
+### Redirecting the port
+```
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+```
+
