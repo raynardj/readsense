@@ -18,6 +18,10 @@ mail_default_sender = abc@gmail.com
 recaptcha_public_key = xxxxxxxxxxxxxxxxxxxxxxxx
 recaptcha_private_key = zzzzzzzzzzzzzzzzzzzzzzzz
 
+[reC_v3]
+recaptcha_public_key_v3 = xxxxxxxxxxxxxxxxxxxxxxxx
+recaptcha_private_key_v3 = zzzzzzzzzzzzzzzzzzzzzzzz
+
 ```
 
 ### Logging

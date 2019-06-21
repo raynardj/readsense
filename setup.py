@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     py_modules=['read_sense',],
     scripts = ['read_sense/bin/readrun',],
-    # package_data={'forge':['./forge/templates/*','./forge/static/*']},
+    package_data={'read_sense':['./app/templates/*','./app/translations/*']},
     install_requires = [
         # "flask==0.12.4",
         # "flask_appbuilder==1.10.0",
