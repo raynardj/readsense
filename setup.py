@@ -10,7 +10,7 @@ setup(
     packages = find_packages(),
     include_package_data=True,
     py_modules=['read_sense',],
-    scripts = ['read_sense/bin/readrun',],
+    scripts = ['read_sense/bin/readrun','read_sense/bin/read_many',],
     package_data={'read_sense':['./app/templates/*','./app/translations/*']},
     install_requires = [
         # "flask==0.12.4",
