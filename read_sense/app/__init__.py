@@ -1,5 +1,4 @@
 import logging
-
 from flask import Flask, request, jsonify
 from flask_appbuilder import AppBuilder, SQLA, expose
 from flask_appbuilder import IndexView, BaseView
@@ -41,7 +40,9 @@ class CustomeIndexView(IndexView):
     def index(self):
         author_choice = random.sample(authors, 20)
         book_choice = random.sample(books, 30)
-        return self.render_template("index.html", author_choice=author_choice, book_choice=book_choice)
+        rec_key_v3 = self.appbuilder.app.config["RECAPTCHA_PUBLIC_KEY_V3"]
+        return self.render_template("index.html", rec_key_v3 = rec_key_v3,
+                                    author_choice=author_choice, book_choice=book_choice)
 
 
 class searchAPI(BaseView):

@@ -6,6 +6,7 @@ from .. import appbuilder, db
 from read_sense.app.views.books_view import bookTextView, authorView, bookView
 from read_sense.app.views.jsviews import JSView
 from read_sense.app.views.verify import verifyView
+from flask import redirect,flash
 import pandas as pd
 
 """
@@ -43,12 +44,8 @@ import pandas as pd
 
 @appbuilder.app.errorhandler(404)
 def page_not_found(e):
-    return (
-        render_template(
-            "404.html", base_template=appbuilder.base_template, appbuilder=appbuilder
-        ),
-        404,
-    )
+    flash("We have restructured our website, try and search the book you want by the following search box","danger")
+    return redirect("/")
 
 
 

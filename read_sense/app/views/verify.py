@@ -20,7 +20,5 @@ class verifyView(BaseView):
             data=dt
         )
         result = r.json()
-        if result["score"]<0.31:
-            return redirect("/")
         print(result)
         return jsonify(result)
