@@ -1,7 +1,7 @@
 from flask_appbuilder import BaseView
 from flask_appbuilder import expose
 from flask import jsonify
-from flask import request
+from flask import request,redirect
 import requests
 import json
 
@@ -20,5 +20,7 @@ class verifyView(BaseView):
             data=dt
         )
         result = r.json()
+        if result["score"]<0.31:
+            return redirect("/")
         print(result)
         return jsonify(result)
