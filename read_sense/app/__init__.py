@@ -7,6 +7,7 @@ import pandas as pd
 from collections import namedtuple
 import random
 import json
+from read_sense import config
 
 """
  Logging configuration
@@ -16,7 +17,7 @@ logging.basicConfig(format="%(asctime)s:%(levelname)s:%(name)s:%(message)s")
 logging.getLogger().setLevel(logging.DEBUG)
 
 app = Flask(__name__)
-app.config.from_object("config")
+app.config.from_object(config)
 db = SQLA(app)
 
 author_ = namedtuple("author", ["id", "name"])

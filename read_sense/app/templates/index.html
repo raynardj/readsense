@@ -1,4 +1,10 @@
 {% extends "appbuilder/base.html"%}
+{%block head_js%}
+{{super()}}
+{% import "google_ana.html" as google_ana%}
+{{google_ana}}
+
+{% endblock %}
 {%block content%}
 <div class="jumbotron">
 <h1>Read Sense</h1>

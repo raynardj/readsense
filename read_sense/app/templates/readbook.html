@@ -1,9 +1,9 @@
 {%extends "appbuilder/base.html"%}
 
 {% block head_js %}
-{{
-super()
-}}
+
+{{super()}}
+{% import "google_ana.html" as google_ana%}{{google_ana}}
 <script src="https://www.google.com/recaptcha/api.js?render={{rec_key_v3}}"></script>
 {% endblock %}
 {% block content %}
@@ -49,6 +49,10 @@ super()
         </div>
     </div>
     <div id="book_content" class="col-md-9">
+        <a class="twitter-share-button btn btn-default"
+        href="https://twitter.com/intent/tweet">
+        Tweet</a>
+
         <pre>
         {% if file %}
         {{file.text|safe}}

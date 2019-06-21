@@ -1,8 +1,9 @@
 {% extends "appbuilder/base.html" %}
+
 {% block head_js %}
-{{
-super()
-}}
+{{super()}}
+{% import "google_ana.html" as google_ana%}
+{{google_ana}}
 <script src="https://www.google.com/recaptcha/api.js?render={{rec_key_v3}}"></script>
 {% endblock %}
 {%block content%}

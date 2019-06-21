@@ -19,3 +19,15 @@ recaptcha_public_key = xxxxxxxxxxxxxxxxxxxxxxxx
 recaptcha_private_key = zzzzzzzzzzzzzzzzzzzzzzzz
 
 ```
+
+### Logging
+When constructing view function:
+```python
+from flask_appbuilder import expose
+from readsense.utils import log_writer
+@expose("/somepath/", methods=["GET"])
+@log_writer
+def something(self):
+    somecode = somecode
+    return self.render_template("some_template.html")
+```
